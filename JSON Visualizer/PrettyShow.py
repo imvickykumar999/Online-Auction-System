@@ -1,5 +1,6 @@
 
 import requests, json
+from myPackage import CallPretty as vix
 
 # ---------------------------
 
@@ -21,13 +22,11 @@ response = response.text
 response = json.loads(response)
 response = dict(response)
 
-with open('data.json', 'w', encoding='utf-8') as f:
+with open('JSON Visualizer/sample.json', 'w', encoding='utf-8') as f:
     json.dump(response, f, ensure_ascii=False, indent=4)
 
 # ---------------------------------
 
-response = open('data.json')
+response = open('JSON Visualizer/sample.json')
 response = json.load(response)
-
-import CallPretty as cp
-cp.JsonPrint(response, list(response.keys()))
+vix.JsonPrint(response, list(response.keys()))

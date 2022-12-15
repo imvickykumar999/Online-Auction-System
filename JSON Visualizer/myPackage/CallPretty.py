@@ -9,6 +9,7 @@ def JsonPrint(response, response_Keys):
 
         elif type(response[response_Keys[i]]) == list:
             print()
+            
             for j in range(len(response[response_Keys[i]])):
                 if type(response[response_Keys[i]][j]) == dict:
                     JsonPrint(response[response_Keys[i]][j], list(response[response_Keys[i]][j].keys()))
