@@ -13,6 +13,7 @@ maxResults = "&maxResults=" + "20"
 # comment any 1 line of 2 urls to test upon
 url = BaseURL + part + q + key + maxResults
 url = "https://raw.githubusercontent.com/imvickykumar999/Postman-30-Days-Challenge/master/Day%2001%3A%20Fork%20a%20collection/Day%2001-%20Fork%20a%20collection.postman_collection.json"
+url = "https://arduino.esp8266.com/stable/package_esp8266com_index.json"
 
 payload={}
 headers = {}
