@@ -27,7 +27,7 @@ def JsonPrint(response, response_Keys):
         elif type(response[response_Keys[i]]) == list:
             print()
             for j in range(len(response_Keys[i])):
-                # print(response_Keys)
+                print(response[response_Keys[i]])
                 print()
 
         else:
