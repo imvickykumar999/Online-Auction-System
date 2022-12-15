@@ -15,22 +15,23 @@ response = requests.request("GET", url, headers=headers, data=payload)
 response = response.text
 response = json.loads(response)
 response = dict(response)
-response_Keys = list(response.keys())
 
-def JsonPrint(response_Keys):
-    for i in response_Keys:
+def JsonPrint(response, response_Keys):
+    print()
+    print(response_Keys)
+    for i in range(len(response_Keys)):
 
-        if type(response[i]) == dict:
-            # JsonPrint(response_Keys)
-            print(i, '->', response[i])
+        if type(response[response_Keys[i]]) == dict:
+            JsonPrint(response[response_Keys[i]], list(response[response_Keys[i]].keys()))
+
+        elif type(response[response_Keys[i]]) == list:
             print()
-
-        elif type(response[i]) == list:
-            for j in range(len(response[i])):
-                print(f'{i[:-1]} {j+1} ->', response[i][j])
+            for j in range(len(response_Keys[i])):
+                # print(response_Keys)
                 print()
 
         else:
-            print(i, '->', response[i])
+            print(response_Keys[i], '->', response[response_Keys[i]])
 
-JsonPrint(response_Keys)
+
+JsonPrint(response, list(response.keys()))
