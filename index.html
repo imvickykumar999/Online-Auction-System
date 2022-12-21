@@ -1,87 +1,42 @@
-<!DOCTYPE html>
-<html lange="en">
-  <head>
-    <script
-      type="text/javascript"
-      src="https://sandbox.web.squarecdn.com/v1/square.js"
-    ></script>
-    <meta charset="utf-8" />
-    <title>Square Web Payments Quickstart</title>
-    <link href="app.css" rel="stylesheet" />
-  </head>
+<head>
+  <link rel="stylesheet" href="/reference/sdks/web/static/styles/code-preview.css" preload>
+  <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+</head>
+<body>
+  <form id="payment-form">
+    <div id="payment-status-container"></div>
+    <div id="card-container"></div>
+    <button id="card-button" type="button">Pay $1.00</button>
+  </form>
 
-  <body>
-    <div id="landing-page-layout">
-      <h2 id="its-working">It's working!</h2>
-      <h1>Welcome to the Web Payments SDK Quickstart</h1>
-      <p>
-        To get started, we recommend following our
-        <a target="_blank" href="/">Quickstart guide</a>.
-      </p>
-      <p>
-        If you need more detail on a method or object, we also have a
-        <a
-          target="_blank"
-          href="https://developer.squareup.com/reference/sdks/web/payments"
-          >technical reference</a
-        >.
-      </p>
+  <script type="text/javascript">
+    async function main() {
+      const payments = Square.payments('sandbox-sq0idb-RT3u-HhCpNdbMiGg5aXuVg', 'TC4Z3ZEBKRXRH');
+      const card = await payments.card();
+      await card.attach('#card-container');
 
-      <div id="example-container">
-        <h3>Examples</h3>
-        <p>
-          These example implementations can be used as a reference or as the
-          base for your own implementation. For these to work, you'll need to
-          set your
-          <a target="_blank" href="https://developer.squareup.com/apps"
-            >applicationId and locationId</a
-          >.
-        </p>
-        <ul id="example-list">
-          <li>
-            <a href="/examples/card.html">Card Payments</a>
-          </li>
-          <li>
-            <a href="/examples/card-payment-with-verification.html"
-              >Card Payments with SCA</a
-            >
-          </li>
-          <li>
-            <a href="/examples/card-on-file-with-verification.html"
-              >Card on File with SCA</a
-            >
-          </li>
-          <li>
-            <a href="/examples/payment-with-card-on-file-and-verification.html"
-              >Payments with Card on File and SCA</a
-            >
-          </li>
-          <li>
-            <a href="/examples/apple-pay.html">Apple Pay</a>
-          </li>
-          <li>
-            <a href="/examples/google-pay.html">Google Pay</a>
-          </li>
-          <li>
-            <a href="/examples/payment-request.html">Payment Request</a>
-          </li>
-          <li>
-            <a href="/examples/ach.html">ACH Bank Transfer</a>
-          </li>
-          <li>
-            <a href="/examples/gift-card.html">Gift Card Payments</a>
-          </li>
-          <li>
-            <a href="/examples/afterpay.html">Afterpay/Clearpay</a>
-          </li>
-          <li>
-            <a href="/examples/card-styling-simple.html">Card Styling</a>
-          </li>
-          <li>
-            <a href="/examples/cash-app-pay.html">Cash App Pay</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </body>
-</html>
+      async function eventHandler(event) {
+        event.preventDefault();
+        const statusContainer = document.getElementById('payment-status-container');
+
+        try {
+          const result = await card.tokenize();
+          if (result.status === 'OK') {
+            console.log(`Payment token is ${result.token}`);
+            statusContainer.innerHTML = "Payment Successful";
+          } else {
+            statusContainer.innerHTML = "Payment Failed";
+          }
+        } catch (e) {
+          console.error(e);
+          statusContainer.innerHTML = "Payment Failed";
+        }
+      };
+
+      const cardButton = document.getElementById('card-button');
+      cardButton.addEventListener('click', eventHandler);
+    }
+
+    main();
+  </script>
+</body>
